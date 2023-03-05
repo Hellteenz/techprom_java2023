@@ -7,7 +7,10 @@
  */
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 public class PrefixTree {
     static class Node {
@@ -42,17 +45,32 @@ public class PrefixTree {
         return head;
     }
 
-    public void add(String data) {
-        char[] word = data.toCharArray();
-        Node parent = head;
-        for (char letter: word) {
-            boolean checker = false;
-            List<Node> list = new ArrayList<>();
-            if (data.indexOf(letter) == (data.length() - 1)) checker = true;
-            Node symbolToAdd = new Node(letter, checker, list);
-            if (!parent.childrenList.contains(symbolToAdd)) parent.childrenList.add(symbolToAdd);
-            parent = symbolToAdd;
+    public void add(String fullData) {
+        String[] fullDataArray = fullData.split(",");
+        for (String data: fullDataArray) {
+            char[] word = data.trim().toCharArray();
+            Node parent = head;
+            for (int letterIndex = 0; letterIndex < word.length; letterIndex++) {
+                boolean checker = false;
+                List<Node> list = new ArrayList<>();
+                if (letterIndex == (word.length - 1)) checker = true;
+                Node symbolToAdd = new Node(word[letterIndex], checker, list);
+                if (parentContainsByKey(parent, word[letterIndex]) == null) {
+                    parent.childrenList.add(symbolToAdd);
+                    parent = symbolToAdd;
+                }
+                else parent = parentContainsByKey(parent, word[letterIndex]);
+            }
         }
     }
+    private Node parentContainsByKey(Node parent, char letter) {
+        for (Node element: parent.childrenList) {
+            if (element.key == letter) {
+                return element;
+            }
+        }
+        return null;
+    }
+
 
 }

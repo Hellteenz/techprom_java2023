@@ -13,9 +13,9 @@ public class Main {
         PrefixTree testFun = new PrefixTree();
 
         if (command == 1) {
-            System.out.println("Добавление новых слов. После завершения операции введите 0");
+            System.out.println("Добавление новых слов. Ввод слов через запятую!");
             Scanner input = new Scanner(System.in);
-            String word = input.next();
+            String word = input.nextLine();
             testFun.add(word);
         }
 
