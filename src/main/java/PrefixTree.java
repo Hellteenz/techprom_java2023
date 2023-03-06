@@ -74,22 +74,27 @@ public class PrefixTree {
         Node parent = head;
         char[] word = data.trim().toCharArray();
         for (int letterIndex = 0; letterIndex < word.length; letterIndex++) {
-            if (letterIndex == word.length - 1) {
-                if (parentContainsByKey(parent, word[letterIndex]).check) {
-                    System.out.println("Ура! Победа! Ура! Такое слово найдено!");
-                    return true;
+            if (parentContainsByKey(parent, word[letterIndex]) != null) {
+                if (letterIndex == word.length - 1) {
+                    if (parentContainsByKey(parent, word[letterIndex]).check) {
+                        System.out.println("Ура! Победа! Ура! Такое слово найдено!");
+                        return true;
+                    } else {
+                        System.out.println("OH NO... Такого слова нет...");
+                        return false;
+                    }
                 }
-                else {
-                    System.out.println("OH NO... Такого слова нет...");
-                    return false;
-                }
+                parent = parentContainsByKey(parent, word[letterIndex]);
             }
+            else return false;
         }
         return false;
     }
 
     public void delete(String data) {
+        char[] word = data.trim().toCharArray();
+        for (int letterIndex = 0; letterIndex < word.length; letterIndex++) {
 
-
+        }
     }
 }
