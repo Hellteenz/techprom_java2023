@@ -7,9 +7,7 @@
  */
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class PrefixTree {
@@ -72,5 +70,25 @@ public class PrefixTree {
         return null;
     }
 
+    public boolean searching(String data) {
+        Node parent = head;
+        char[] word = data.trim().toCharArray();
+        for (int letterIndex = 0; letterIndex < word.length; letterIndex++) {
+            if (letterIndex == word.length - 1) {
+                if (parentContainsByKey(parent, word[letterIndex]).check) {
+                    System.out.println("Ура! Победа! Ура! Такое слово найдено!");
+                    return true;
+                }
+                else {
+                    System.out.println("OH NO... Такого слова нет...");
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
 
+    public void delete(String data) {
+        
+    }
 }
