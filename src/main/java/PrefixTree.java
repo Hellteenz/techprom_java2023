@@ -91,10 +91,26 @@ public class PrefixTree {
         return false;
     }
 
-    public void delete(String data) {
+    public void delete(String data) throws Error {
         char[] word = data.trim().toCharArray();
+        Node parent = head;
         for (int letterIndex = 0; letterIndex < word.length; letterIndex++) {
-
+            Node resultPCBK = parentContainsByKey(parent, word[letterIndex]);
+            if (resultPCBK != null) {
+                if (letterIndex == word.length - 1) {
+                    if (resultPCBK.childrenList != null && resultPCBK.check) resultPCBK.check = false;
+                    if (resultPCBK.childrenList == null) parent.childrenList.remove(resultPCBK);
+                    else throw new Error("Wrong data");
+                }
+            }
+            else throw new Error("Wrong data");
+            parent = resultPCBK;
         }
+        String newData = data.substring(0, data.length() - 2);
+        if (newData.length() > 0) delete(newData);
+    }
+
+    public List<String> findAllByPrefix(String data) {
+        char[] word = data.trim().toCharArray();
     }
 }
