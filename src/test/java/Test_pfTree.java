@@ -7,7 +7,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class Test_pfTree {
-    String data = "hello, hell, cat, command, computer, helin, helloland, fender, funny, function";
+    String data = "hell, hello, cat, command, computer, helin, helloland, fender, funny, function";
     @Test
     void add() {
         PrefixTree tree = new PrefixTree();
@@ -43,8 +43,18 @@ class Test_pfTree {
     void findAllByPrefix() {
         PrefixTree tree = new PrefixTree();
         tree.add(data);
-        assertEquals(tree.findAllByPrefix("hell").stream().sorted(), Arrays.stream("hello, hell, helloland".split(",")).sorted());
-        assertEquals(tree.findAllByPrefix("cat").stream().sorted(), Arrays.stream("cat".split(",")).sorted());
-        assertEquals(tree.findAllByPrefix("co").stream().sorted(), Arrays.stream("command, computer".split(",")).sorted());
+        List<String> test1 = new ArrayList<>();
+        test1.add("hell");
+        test1.add("hello");
+        test1.add("helloland");
+        List<String> test2 = new ArrayList<>();
+        test2.add("cat");
+        List<String> test3 = new ArrayList<>();
+        test3.add("cat");
+        test3.add("command");
+        test3.add("computer");
+        assertEquals(tree.findAllByPrefix("hell"), test1);
+        assertEquals(tree.findAllByPrefix("cat"), test2);
+        assertEquals(tree.findAllByPrefix("c"), test3);
     }
 }

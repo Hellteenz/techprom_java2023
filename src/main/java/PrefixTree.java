@@ -106,9 +106,7 @@ public class PrefixTree {
                             else breakFlag = true;
                         } else if (checkSubstring) parent.childrenList.remove(resultPCBK);
                         else throw new Error("Wrong data 1");
-                    } else {
-                        parent.childrenList.remove(resultPCBK);
-                    }
+                    } else parent.childrenList.remove(resultPCBK);
                 }
             } else throw new Error("Wrong data 2");
             parent = resultPCBK;
@@ -133,23 +131,24 @@ public class PrefixTree {
                 parent = resultPCBK;
             } else return null;
         }
-        if (parent.childrenList != null) strByPrefix = takeAllWordsByPrefix(parent, strByPrefix);
-        if (strByPrefix != null) {
+        if (strByPrefix != null && parent.check) {
             listOfResWord.add(strByPrefix);
-        } else return null;
+        }
+        if (parent.childrenList.size() != 0) listOfResWord.addAll(takeAllWordsByPrefix(parent, strByPrefix));
         return listOfResWord;
     }
 
-    private String takeAllWordsByPrefix(Node prefix, String strByPrefix) {
+    private List<String> takeAllWordsByPrefix(Node prefix, String strByPrefix) {
+        List<String> listOfResWord = new ArrayList<>();
+        String data = strByPrefix;
         for (Node children: prefix.childrenList) {
             strByPrefix += children.key;
-            if (children.childrenList == null) {
-                return strByPrefix;
-            }
-            else {
-                strByPrefix = takeAllWordsByPrefix(children, strByPrefix);
+            if (children.check) listOfResWord.add(strByPrefix);
+            if (children.childrenList != null) {
+                listOfResWord.addAll(takeAllWordsByPrefix(children, strByPrefix));
+                strByPrefix = data;
             }
         }
-        return null;
+        return listOfResWord;
     }
 }
