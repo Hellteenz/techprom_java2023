@@ -14,20 +14,7 @@ public class PrefixTree {
     static class Node {
         private final char key;
         private boolean check;
-
         private final List<Node> childrenList;
-
-        public char getKey(){
-            return key;
-        }
-
-        public boolean getCheck() {
-            return check;
-        }
-
-        public List<Node> getChildrenList() {
-            return childrenList;
-        }
 
         public Node(char data, boolean isEndOfWord, List<Node> childrenList) {
             this.key = data;
@@ -38,10 +25,6 @@ public class PrefixTree {
     }
     List<Node> list = new ArrayList<>();
     private Node head = new Node(' ', false, list);
-
-    public Node getHead(){
-        return head;
-    }
 
     public void add(String fullData) {
         String[] fullDataArray = fullData.split(",");
