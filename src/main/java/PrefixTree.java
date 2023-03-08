@@ -12,10 +12,10 @@ import java.util.List;
 
 public class PrefixTree {
     static class Node {
-        private char key;
+        private final char key;
         private boolean check;
 
-        private List<Node> childrenList;
+        private final List<Node> childrenList;
 
         public char getKey(){
             return key;
@@ -74,9 +74,10 @@ public class PrefixTree {
         Node parent = head;
         char[] word = data.trim().toCharArray();
         for (int letterIndex = 0; letterIndex < word.length; letterIndex++) {
-            if (parentContainsByKey(parent, word[letterIndex]) != null) {
+            Node resultPCBK = parentContainsByKey(parent, word[letterIndex]);
+            if (resultPCBK != null) {
                 if (letterIndex == word.length - 1) {
-                    if (parentContainsByKey(parent, word[letterIndex]).check) {
+                    if (resultPCBK.check) {
                         System.out.println("Ура! Победа! Ура! Такое слово найдено!");
                         return true;
                     } else {
@@ -84,7 +85,7 @@ public class PrefixTree {
                         return false;
                     }
                 }
-                parent = parentContainsByKey(parent, word[letterIndex]);
+                parent = resultPCBK;
             }
             else return false;
         }
@@ -112,5 +113,33 @@ public class PrefixTree {
 
     public List<String> findAllByPrefix(String data) {
         char[] word = data.trim().toCharArray();
+        Node parent = head;
+        List<String> listOfResWord = new ArrayList<>();
+        String strByPrefix = "";
+        for (char prefixLetter : word) {
+            Node resultPCBK = parentContainsByKey(parent, prefixLetter);
+            if (resultPCBK != null) {
+                strByPrefix += prefixLetter;
+                parent = resultPCBK;
+            } else return null;
+        }
+        if (parent.childrenList != null) strByPrefix = takeAllWordsByPrefix(parent, strByPrefix);
+        if (strByPrefix != null) {
+            listOfResWord.add(strByPrefix);
+        } else return null;
+        return listOfResWord;
+    }
+
+    private String takeAllWordsByPrefix(Node prefix, String strByPrefix) {
+        for (Node children: prefix.childrenList) {
+            strByPrefix += children.key;
+            if (children.childrenList == null) {
+                return strByPrefix;
+            }
+            else {
+                strByPrefix = takeAllWordsByPrefix(children, strByPrefix);
+            }
+        }
+        return null;
     }
 }
