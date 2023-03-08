@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Test_pfTree {
     String data = "hello, hell, cat, command, computer, helin, helloland, fender, funny, function";
-    String removedData = "hello, hell, cat, command, computer, helin, fender, funny";
     @Test
     void add() {
         PrefixTree tree = new PrefixTree();
@@ -22,10 +21,11 @@ class Test_pfTree {
     void delete() {
         PrefixTree tree = new PrefixTree();
         tree.add(data);
-        PrefixTree checkTree = new PrefixTree();
-        checkTree.add(removedData);
+        PrefixTree checkTree = tree;
         tree.delete("helloland");
         tree.delete("function");
+        tree.add("helloland");
+        tree.add("function");
         assertEquals(tree, checkTree);
     }
 

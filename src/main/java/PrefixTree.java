@@ -97,29 +97,28 @@ public class PrefixTree {
         char[] word = data.trim().toCharArray();
         Node parent = head;
         for (int letterIndex = 0; letterIndex < word.length; letterIndex++) {
-            if (!breakFlag) {
-                Node resultPCBK = parentContainsByKey(parent, word[letterIndex]);
-                if (resultPCBK != null) {
-                    if (letterIndex == word.length - 1) {
-                        if (resultPCBK.childrenList != null) {
-                            if (resultPCBK.check) {
-                                if (!checkSubstring) resultPCBK.check = false;
-                                else breakFlag = true;
-                            } else if (checkSubstring) parent.childrenList.remove(resultPCBK);
-                            else throw new Error("Wrong data 1");
-                        } else {
-                            parent.childrenList.remove(resultPCBK);
-                        }
+            Node resultPCBK = parentContainsByKey(parent, word[letterIndex]);
+            if (resultPCBK != null) {
+                if (letterIndex == word.length - 1) {
+                    if (resultPCBK.childrenList != null) {
+                        if (resultPCBK.check) {
+                            if (!checkSubstring) resultPCBK.check = false;
+                            else breakFlag = true;
+                        } else if (checkSubstring) parent.childrenList.remove(resultPCBK);
+                        else throw new Error("Wrong data 1");
+                    } else {
+                        parent.childrenList.remove(resultPCBK);
                     }
-                } else throw new Error("Wrong data 2");
-                parent = resultPCBK;
-            }
+                }
+            } else throw new Error("Wrong data 2");
+            parent = resultPCBK;
         }
         checkSubstring = true;
         String newData = data.substring(0, data.length() - 1);
-        if (newData.length() > 0) {
+        if (newData.length() > 0 && !breakFlag) {
             delete(newData);
         }
+        checkSubstring = false;
     }
 
     public List<String> findAllByPrefix(String data) {
